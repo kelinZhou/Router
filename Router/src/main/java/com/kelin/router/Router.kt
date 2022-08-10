@@ -14,16 +14,69 @@ import android.content.Context
  */
 interface Router : DefHostTabProvider {
 
-
     companion object {
+
+        private var mDefHostTab: HomeTab? = null
         private var mContext: Context? = null
 
-        fun init(context: Application) {
+        /**
+         * 初始化。
+         * @param defTab 打开App后默认的Tab。
+         */
+        fun init(context: Application, defTab: HomeTab) {
             mContext = context
+            mDefHostTab = defTab
         }
 
+        /**
+         * 获取打开App后默认的Tab。
+         */
+        val defaultHostTab: HomeTab
+            get() {
+                return mDefHostTab ?: IdHomeTab(0)
+            }
+
+
         internal fun getContext(): Context {
-            return mContext?: throw NullPointerException("You must call the Router.init() Method before use the Router")
+            return mContext
+                ?: throw NullPointerException("You must call the Router.init() Method before use the Router")
+        }
+
+        var currentHostTab: HomeTab = defaultHostTab
+
+        private var mRouter: Router? = null
+
+        fun setRouter(factory: RouterFactory, jump: Boolean = false, context: Context) {
+            factory.createRouter().also {
+                if (it != null) {
+                    if (jump) {
+                        it.jump(context)
+                    } else {
+                        setRouter(it)
+                    }
+                } else {
+                    setRouter(it)
+                }
+            }
+        }
+
+        fun setRouter(router: Router?) {
+            mRouter = router
+        }
+
+        fun setDefHostTab(tab: HomeTab) {
+            if (mRouter == null) {
+                setRouter(EmptyRouter(tab))
+            }
+        }
+
+        fun tryJumpToTarget(context: Context) {
+            mRouter?.jump(context)
+            mRouter = null
+        }
+
+        fun getCurrentRouterTab(): HomeTab? {
+            return mRouter?.provideDefHostTab()
         }
     }
 
@@ -38,8 +91,8 @@ interface Router : DefHostTabProvider {
     }
 }
 
-class EmptyRouter(private val defHostTab: HostTab) : Router.SimpleRouter() {
-    override fun provideDefHostTab(): HostTab {
+class EmptyRouter(private val defHostTab: HomeTab) : Router.SimpleRouter() {
+    override fun provideDefHostTab(): HomeTab {
         return defHostTab
     }
 }

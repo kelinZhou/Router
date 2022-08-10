@@ -10,5 +10,5 @@ package com.kelin.router
  * **版本:** v 1.0.0
  */
 interface DefHostTabProvider {
-    fun provideDefHostTab(): HostTab
+    fun provideDefHostTab(): HomeTab
 }

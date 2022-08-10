@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
  *
  * **版本:** v 1.0.0
  */
-interface HostTab {
+interface HostTab : HomeTab {
     /**
      * 是否是特殊Tab。
      */
