@@ -75,8 +75,8 @@ interface Router : DefHostTabProvider {
             mRouter = null
         }
 
-        fun getCurrentRouterTab(): HomeTab? {
-            return mRouter?.provideDefHostTab()
+        fun getCurrentRouterTab(): HomeTab {
+            return mRouter?.provideDefHostTab() ?: defaultHostTab
         }
     }
 
