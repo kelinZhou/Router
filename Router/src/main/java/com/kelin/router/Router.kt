@@ -46,10 +46,10 @@ interface Router : DefHostTabProvider {
 
         private var mRouter: Router? = null
 
-        fun setRouter(factory: RouterFactory, jump: Boolean = false, context: Context) {
+        fun setRouter(factory: RouterFactory, jump: Boolean = false, context: Context?) {
             factory.createRouter().also {
                 if (it != null) {
-                    if (jump) {
+                    if (jump && context != null) {
                         it.jump(context)
                     } else {
                         setRouter(it)
