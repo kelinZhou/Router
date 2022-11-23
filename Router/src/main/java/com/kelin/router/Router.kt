@@ -71,8 +71,9 @@ interface Router : DefHostTabProvider {
         }
 
         fun tryJumpToTarget(context: Context) {
-            mRouter?.jump(context)
+            val router = mRouter
             mRouter = null
+            router?.jump(context)
         }
 
         fun getCurrentRouterTab(): HomeTab {
