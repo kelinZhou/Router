@@ -1,4 +1,5 @@
-# Router -- 便于处理页面跳转逻辑的框架
+# Router -- 便于处理页面跳转逻辑的框架 [![](https://jitpack.io/v/kelinZhou/Router.svg)](https://jitpack.io/#kelinZhou/Router)
+
 ***
 ## Download
 **Step 1.** Add the JitPack repository to your build file
